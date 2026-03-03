@@ -37,7 +37,7 @@ mkdir models
 cat Pfam-A.hmm | perl -e '$c=""; while(<>){chomp; $c.="$_\n";if(/^\/\//){open O,">models/$acc.hmm"; print O "$c"; $c=""; close(O)}; $acc=$1 if $_=~/^ACC\s+(.*)/}'
 find models -name "*.hmm" -exec realpath {} + > models.list
 
-## interget dat 
+## Process .dat files (for domain metadata and active sites)
 pfam_format_dat.py Pfam-A.hmm.dat active_site.dat pfam.dat
 ```
 
@@ -46,3 +46,4 @@ pfam_format_dat.py Pfam-A.hmm.dat active_site.dat pfam.dat
 ```bash
 flow_pfam.v2.sh input.faa output.pfam
 ```
+
