@@ -42,8 +42,9 @@ pfam_format_dat.py Pfam-A.hmm.dat active_site.dat pfam.dat
 ```
 
 ### Run
-修改`flow_pfam.v2.sh`第30-32行之后，就可以运行了。
 ```bash
-flow_pfam.v2.sh input.faa output.pfam
+flow_pfam.v2.sh -l /path/to/models.list -d /path/to/pfam.dat input.faa output.pfam
 ```
+
+同样的，也可以修改`flow_pfam.v2.sh`第16-18行的参数修改默认的路径
 

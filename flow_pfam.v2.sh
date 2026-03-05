@@ -1,25 +1,11 @@
 #!/usr/bin/bash
-# set -euo pipefail
 
-( [ $# -ne 2 ] ) && echo "$0 <fasta> <output_file>" && exit 127
-
-inf=`realpath -s $1`
-outf=`realpath -s $2`
-
-
-if [ -f "${outf}.lock" ];then
-    echo "${outf} is running."
-    exit 127
-fi
-
-
-
-if [ -f "${outf}.ok" ];then
-    echo -e "\033[32msuccess:\033[0m\t$outf."
-    exit 0
-fi
-
-shopt -s expand_aliases
+# 定义颜色
+GREEN='\033[0;32m'  # 绿色
+LIGHT_GRAY='\033[1;30m'   # 浅灰色
+YELLOW='\033[0;33m'  # 黄色
+RED='\033[0;31m'  # 红色
+NC='\033[0m'        # 无颜色
 
 #-----------------------
 #        software
@@ -30,8 +16,86 @@ shopt -s expand_aliases
 db_list=/share/data1/Database/Pfam/test/pfam.list
 db_dat=/share/data1/Database/Pfam/releases35/pfam.dat
 threads=30
+force=0
 
 
+
+help=$(cat << EOF
+
+    Usage:  ${GREEN}$0 ${YELLOW}<input.faa> <output_file> [Parameters] ${NC}
+
+    Parameters:
+
+        -l|--hmms           hmm models list.[${GREEN}${db_list}${NC}]
+        -d|--dat            pfam.dat [${GREEN}${db_dat}${NC}]
+        -p|--threads        threads[${GREEN}${threads}${NC}]
+
+        -f|--force          overwrite [Flag]
+    \n
+EOF
+)
+
+
+if [[ $# -lt 2 ]];then
+    echo -e "$help"
+    exit 1
+fi
+
+positional=()
+
+while [[ $# -gt 0 ]];do
+    case $1 in
+        -m|--hmm)
+            db_list=$1
+            shift 2
+            ;;
+        -d|--dat)
+            db_dat=$1
+            shift 2
+            ;;
+        -p|--threads)
+            threads=$1
+            shift 2
+            ;;
+        -f|--force)
+            force=1
+            shift 1
+            ;;
+        --)
+            positional+=("$@")
+            break
+            ;;
+        -*|--*)
+            echo "Unknown params $1"
+            exit 1
+            ;;
+        *)
+            positional+=("$1")
+            shift
+            ;;
+    esac
+done
+
+set -- "${positional[@]}"
+
+set -euo pipefail
+
+inf=$(realpath -s $1)
+outf=$(realpath -s $2)
+
+
+if [ $force -eq 1 ];then
+    [ -f ${outf} ] && rm -rf ${outf}
+    [ -d ${outf}.tmp ] && rm -rf ${outf}.tmp
+    [ -f ${outf}.lock ] && rm -rf ${outf}.lock
+    [ -f ${outf}.ok ] && rm -rf ${outf}.ok
+else
+    [ -f ${outf}.lock ] && echo -e "${RED}running${NC}: ${output}" && exit 127
+    [ -f ${outf}.ok ] && echo -e "${GREEN}success${NC}: ${output}" && exit 0
+fi
+
+
+shopt -s expand_aliases
 
 touch ${outf}.lock
 
@@ -76,6 +140,6 @@ if [ -f ${outf}.pfam.tmp.ok ];then
     rm ${outf}.lock && touch ${outf}.ok \
         && chmod 444 ${outf} \
         && rm -rf ${outf}.pfam.tmp ${outf}.pfam.tmp.ok ${outf}.pfam.tmp.log \
-            ${outf}.pfam.merge \
-            ${outf}.temp.faa ${outf}.temp.faa.ok
+        ${outf}.pfam.merge \
+        ${outf}.temp.faa ${outf}.temp.faa.ok
 fi
