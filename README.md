@@ -51,8 +51,8 @@ flow_pfam.v2.sh -m /path/to/models.list -d /path/to/pfam.dat input.faa output.pf
 ### Other
 1、Identity SMGCs (PKS-like, NRPS-like, PKS, NRPS, DMAT, Hybrid)  
 refs:  
-    [1] https://www.nature.com/articles/s41588-018-0246-1#Sec15
-    [2] https://www.cell.com/cell/fulltext/S0092-8674(24)00469-0#fig3
+    [1] https://www.nature.com/articles/s41588-018-0246-1#Sec15  
+    [2] https://www.cell.com/cell/fulltext/S0092-8674(24)00469-0#fig3  
 ```bash
 find_SMAG.py output.pfam > output.pfam.smgc.all
 grep -v unknow output.pfam.smgc > output.pfam.smgc.know
