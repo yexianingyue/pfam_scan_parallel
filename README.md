@@ -7,15 +7,14 @@ It is **not** a complete rewrite of the official [`pfam_scan.pl`](http://ftp.ebi
 - Output is highly compatible with standard `pfam_scan.pl` (minor numerical/ordering differences may occur, but biological interpretation remains consistent)
 - On the author's machine with 30 threads, a typical dataset (with 11,312 proteins) finishes in **under 2 minutes** real time
 - 
-### Requirements ()
+### Requirements
 - HMMER3 (with `hmmsearch`)
 - GNU parallel
 - Perl
 - Python3
 
 ### Build Database:
-1、download
-If you already have a prepared Pfam database, you can skip the download step.
+1、download  (_If you already have a prepared Pfam database, you can skip the download step._)
 ```bash
 pfamversion="Pfam38.2"
 database_dir=/path/to/database/pfam/${pfamversion}  # ← Edit this path!!!
@@ -43,8 +42,9 @@ pfam_format_dat.py Pfam-A.hmm.dat active_site.dat pfam.dat
 
 ### Run
 ```bash
-flow_pfam.v2.sh -l /path/to/models.list -d /path/to/pfam.dat input.faa output.pfam
+flow_pfam.v2.sh -m /path/to/models.list -d /path/to/pfam.dat input.faa output.pfam
 ```
 
 同样的，也可以修改`flow_pfam.v2.sh`第16-18行的参数修改默认的路径
+
 
