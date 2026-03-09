@@ -55,6 +55,6 @@ refs:
     [2] https://www.cell.com/cell/fulltext/S0092-8674(24)00469-0#fig3  
 ```bash
 find_SMAG.py output.pfam > output.pfam.smgc.all
-grep -v unknow output.pfam.smgc > output.pfam.smgc.know
+grep -v unknow output.pfam.smgc.all > output.pfam.smgc.know
 ```
 
