@@ -48,3 +48,13 @@ flow_pfam.v2.sh -m /path/to/models.list -d /path/to/pfam.dat input.faa output.pf
 同样的，也可以修改`flow_pfam.v2.sh`第16-18行的参数修改默认的路径
 
 
+### Other
+1、Identity SMGCs (PKS-like, NRPS-like, PKS, NRPS, DMAT, Hybrid)  
+refs:  
+    [1] https://www.nature.com/articles/s41588-018-0246-1#Sec15
+    [2] https://www.cell.com/cell/fulltext/S0092-8674(24)00469-0#fig3
+```bash
+find_SMAG.py output.pfam > output.pfam.smgc.all
+grep -v unknow output.pfam.smgc > output.pfam.smgc.know
+```
+
