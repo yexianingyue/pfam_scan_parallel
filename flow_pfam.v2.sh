@@ -26,10 +26,9 @@ help=$(cat << EOF
 
     Parameters:
 
-        -l|--hmms           hmm models list.[${GREEN}${db_list}${NC}]
+        -m|--hmms           hmm models list.[${GREEN}${db_list}${NC}]
         -d|--dat            pfam.dat [${GREEN}${db_dat}${NC}]
         -p|--threads        threads[${GREEN}${threads}${NC}]
-
         -f|--force          overwrite [Flag]
     \n
 EOF
